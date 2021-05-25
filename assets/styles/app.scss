@@ -1,0 +1,13 @@
+$primary: #aa5505;
+$secondary: #f7e4cb;
+$warning: #f3be78;
+$theme-colors:( "primary": $primary, "secondary": $secondary, "warning": $warning);
+@import "~bootstrap/scss/bootstrap";
+//@import "node_modules/bootstrap/scss/bootstrap";
+body {
+    background-color: $secondary;
+}
+
+h1 {
+    color: orangered;
+}
