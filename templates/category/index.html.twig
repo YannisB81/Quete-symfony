@@ -5,6 +5,7 @@
 {% block body %}
     <br>
     <h1>Toutes les catégories : </h1>
+    <a href="/categories/new">Ajouter une catégorie</a>
     {% for category in categories %}
         <div>
             <h2>{{ category.name }}</h2>
