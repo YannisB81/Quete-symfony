@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProgramRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -31,12 +33,22 @@ class Program
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $poster;
-
+    
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="programs")
      * @ORM\JoinColumn(nullable=false)
      */
     private $category;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Season::class, mappedBy="program", orphanRemoval=true)
+     */
+    private $seasons;
+
+    public function __construct()
+    {
+        $this->seasons = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -87,6 +99,36 @@ class Program
     public function setCategory(?Category $category): self
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Season[]
+     */
+    public function getSeasons(): Collection
+    {
+        return $this->seasons;
+    }
+
+    public function addSeasons(Season $seasons): self
+    {
+        if (!$this->seasons->contains($seasons)) {
+            $this->seasons[] = $seasons;
+            $seasons->setProgram($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSeasons(Season $seasons): self
+    {
+        if ($this->seasons->removeElement($seasons)) {
+            // set the owning side to null (unless already changed)
+            if ($seasons->getProgram() === $this) {
+                $seasons->setProgram(null);
+            }
+        }
 
         return $this;
     }
