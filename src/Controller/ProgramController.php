@@ -29,16 +29,9 @@ class ProgramController extends AbstractController
     /**
      * @Route("/{id}", methods={"GET"}, requirements={"id"="\d+"}, name="show")
      */
-    public function show(int $id): Response
+    public function show(Program $program): Response
     {
-        $program = $this->getDoctrine()
-            ->getRepository(Program::class)
-            ->findOneBy(['id' => $id]);
-        if(!$program) {
-            throw $this->createNotFoundException(
-                'No program with id : '.$id.' found in program\'s table.'
-            );
-        }
+        
         $programId = $program->getId();
         $seasons = $this->getDoctrine()
             ->getRepository(Season::class)
@@ -54,16 +47,12 @@ class ProgramController extends AbstractController
         ]);
     }
     /**
-     * @Route("{programId}/season/{seasonId}", methods={"GET"}, requirements={"seasonId"="\d+"}, name="season_show")
+     * @Route("{program}/season/{season}", methods={"GET"}, requirements={"season"="\d+"}, name="season_show")
      */
-    public function showSeason(int $programId, int $seasonId): Response
+    public function showSeason(Program $program, Season $season): Response
     {
-        $program = $this->getDoctrine()
-            ->getRepository(Program::class)
-            ->findOneBy(['id' => $programId]);
-        $season = $this->getDoctrine()
-            ->getRepository(Season::class)
-            ->findOneBy(['id' => $seasonId]);
+        $programId = $program->getId();
+        $seasonId = $season->getId();
         $episodes = $this->getDoctrine()
             ->getRepository(Episode::class)
             ->findBySeason($seasonId);
@@ -76,6 +65,17 @@ class ProgramController extends AbstractController
             'program' => $program,
             'season' => $season,
             'episodes' => $episodes,
+        ]);
+    }
+    /**
+     * @Route("{program}/season/{season}/episodes/{episode}", methods={"GET"}, requirements={"episode"="\d+"}, name="episode_show")
+     */
+    public function showEpisode(Program $program, Season $season, Episode $episode): Response
+    {
+        return $this->render('program/episode_show.html.twig', [
+            'program' => $program,
+            'season' => $season,
+            'episode' => $episode,
         ]);
     }
 }

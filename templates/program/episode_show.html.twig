@@ -7,14 +7,9 @@
   <img class="align-self-start mr-3" height="200px" src="{{program.poster}}" alt="{{ program.title }} poster">
   <div class="media-body"><br>
     <h1 class="mt-0">Saison {{season.number}} de {{ program.title }}</h1>
-    <p>{{ program.summary }}</p>
-    
-    <h3>Liste des épisodes :</h3>
-    {% for episode in episodes %}
-      <li><a href="{{ path("program_episode_show", { program: program.id, season: season.id, episode: episode.id }) }}">Episode {{ episode.number }} : {{ episode.title }}</a></li>
-    {% else %}
-      Aucune saison d'enregistré.
-    {% endfor %}
+    <h2>Episode {{ episode.number }} : {{ episode.title }}</h2>
+    <h3>Résumé : </h3>
+    <p>{{ episode.synopsis }}</p>
   </div>
 </div>
 
