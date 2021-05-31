@@ -6,9 +6,13 @@ use App\Repository\ProgramRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=ProgramRepository::class)
+ * @UniqueEntity(fields={"title"}, message="Ce programme existe déjà")
+ * @Assert\EnableAutoMapping()
  */
 class Program
 {
@@ -18,14 +22,18 @@ class Program
      * @ORM\Column(type="integer")
      */
     private $id;
-
+    
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Le champ title ne doit pas être vide")
+     * @Assert\Length(max="254", maxMessage="Le titre saisit est trop long")
      */
     private $title;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank(message="Le champ summary ne doit pas être vide")
+     * @Assert\Regex(pattern="/^(?:(?!(plus belle la vie)).)*$/i", message="On parle de vraies séries ici")
      */
     private $summary;
 
