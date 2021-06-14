@@ -58,20 +58,20 @@ class CategoryController extends AbstractController
         $category = $this->getDoctrine()
             ->getRepository(Category::Class)
             ->findOneBy(['name' => $categoryName]);
-        if(!$category) {
+        /*if(!$category) {
             throw $this->createNotFoundException(
                 'No category with id : '.$id.' found in category\'s table.'
             );
-        }
+        }*/
         $categoryId = $category->getId();
         $programs = $this->getDoctrine()
             ->getRepository(Program::class)
             ->findByCategory($categoryId, ['id' => 'DESC'], 3);
-        if (!$programs) {
+        /*if (!$programs) {
             throw $this->createNotFoundException(
                 'No program with '.$categoryName.', found in program\'s table.'
             );
-        }
+        }*/
         return $this->render('category/show.html.twig', [
             'programs' => $programs,
             'categoryName' => $categoryName,

@@ -76,11 +76,11 @@ class ProgramController extends AbstractController
         $episodes = $this->getDoctrine()
             ->getRepository(Episode::class)
             ->findBySeason($seasonId);
-        if (!$episodes) {
+        /*if (!$episodes) {
             throw $this->createNotFoundException(
                 'No episode with '.$episodeName.', found in episode\'s table.'
             );
-        }
+        }*/
         return $this->render('program/season_show.html.twig', [
             'program' => $program,
             'season' => $season,
